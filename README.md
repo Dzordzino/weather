@@ -1,4 +1,4 @@
-# weather
+# vue-weather
 
 ## Project setup
 ```
