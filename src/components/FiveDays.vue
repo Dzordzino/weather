@@ -1,17 +1,21 @@
 <template>
     <div :style="display">
         <div>lista</div>
-        <SingleDay :singleDayData.sync="singleDayData" />
+        <Today :firstDayData.sync="firstDayData" />
+        <SingleDay :singleDayData.sync="singleDayData" :firstDayData.sync="firstDayData" />
     </div>
 </template>
 
 <script>
     import SingleDay from './SingleDay.vue';
+    import Today from './Today.vue';
+
 
     export default {
         name: 'FiveDays',
         components: {
-            SingleDay
+            SingleDay,
+            Today
         },
         props: { 
             fiveDaysData: {
@@ -21,12 +25,31 @@
         },
         watch: { 
             fiveDaysData: function() {
-                console.log(this.fiveDaysData);
                 let date = new Date(),
-                    dateFormat = `${date.getFullYear()}-${date.getMonth() > 9 ? "" : 0}${date.getMonth()+1}-${date.getDate()}`;
+                    year = date.getFullYear(),
+                    mounth = date.getMonth() + 1,
+                    day = date.getDate(),
+                    today = `${year}-${mounth > 9 ? mounth : "0" + mounth}-${day > 9 ? day : "0" + day}`,
+                    firstDay = today,
+                    singleDayArray = [],
+                    firstDayArray = [];
 
-                if(this.fiveDaysData.length) {
-                    this.singleDayData = this.fiveDaysData.filter(item => item["dt_txt"].split(" ")[0] === dateFormat);
+                if (this.fiveDaysData.length) {
+                    this.fiveDaysData.forEach(item => {
+                        let currentDate = item["dt_txt"].split(" ")[0];
+                        if (firstDay !== currentDate) {
+                            singleDayArray.push(item);
+                            if (currentDate && today !== currentDate) {
+                                today = currentDate;
+                                this.singleDayData.push(singleDayArray);
+                                singleDayArray = []
+                            }
+                        } else {
+                            firstDayArray.push(item);
+                        }
+                    })
+                    firstDayArray.push(this.fiveDaysData[firstDayArray.length]);
+                    this.firstDayData = firstDayArray;
                 }
                 this.display = {};
             }
@@ -36,7 +59,8 @@
                 display: {
                     display: 'none'
                 },
-                singleDayData: []
+                singleDayData: [],
+                firstDayData: []
             }
         }
     }
