@@ -22,10 +22,6 @@ async function getWeatherData() {
     return await axios.get(weatherUrl, { params: parameters })
     .then(response => {
         return response.data
-        // this.fiveDaysData = data.list;
-        // if (data.city && data.city.name) {
-        //     this.placoholderValue = data.city.name;
-        // }
     })
     .catch(error => {
         if (error) {

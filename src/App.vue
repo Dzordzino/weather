@@ -1,12 +1,9 @@
 <template>
-    <div>
-        <h1>Hello</h1>
-        <SearchBar />
-    </div>
+    <WeatherLayout />
 </template>
 
 <script>
-    import SearchBar from './components/SearchBar.vue'
+    import WeatherLayout from './components/WeatherLayout.vue'
     import { mapActions } from 'vuex';
     import './main.scss';
     
@@ -17,7 +14,6 @@
         },
         methods: {
             ...mapActions('weather', [
-                'getPollutionData',
                 'getWeatherData',
                 'setLatitude',
                 'setLongitude'
@@ -26,11 +22,10 @@
                 this.setLatitude(position.coords.latitude);
                 this.setLongitude(position.coords.longitude);
                 this.getWeatherData();
-                this.getPollutionData();
             },
         },
         components: {
-            SearchBar
+            WeatherLayout
         }
     }
 </script>

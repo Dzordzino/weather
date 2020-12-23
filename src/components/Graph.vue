@@ -19,22 +19,18 @@ export default {
             graphData: []
         }
     },
-    watch: { 
-        firstDayData: function() {
-            let tadayData = ''
-            tadayData = this.firstDayData.map(item => {
-                let tempData = {};
+    mounted() {
+        let todayData = ''
+        todayData = this.firstDayData.map(item => {
+            let tempData = {};
 
-                tempData.name = item["main"]["temp"];
-                tempData.value = item["main"]["temp"];
-                tempData.color = '#6f7aff';
-                return tempData;
-            });
-            this.graphData = tadayData;
-        },
-        graphData: function() {
-            this.renderGraphData();
-        }
+            tempData.name = item["main"]["temp"];
+            tempData.value = item["main"]["temp"];
+            tempData.color = '#6f7aff';
+            return tempData;
+        });
+        this.graphData = todayData;
+        this.renderGraphData();
     },
     methods: {
         renderGraphData: function() {
