@@ -1,10 +1,12 @@
 <template>
     <div>
         <div class="successHolder" v-if="getStatus === 'success'">
-            <SearchBar />
-            <p>{{getPollutionValue}}</p>
-            <Graph :firstDayData.sync="getFirstDayArray"/>
-            <NextFiveDays :nextFiveDaysData.sync="getFiveDaysArray" />
+            <div class="weatherData">
+                <SearchBar />
+                <p>{{getPollutionValue}}</p>
+                <Graph :firstDayData.sync="getFirstDayArray"/>
+                <NextFiveDays :nextFiveDaysData.sync="getFiveDaysArray" />
+            </div>
         </div>
         <div class="errorHolder" v-if="getStatus === 'error'">
             <p>Error</p>
@@ -38,4 +40,21 @@
         }
     }
 </script>
+
+<style scoped lang="scss">
+    .successHolder {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+    }
+    .weatherData {
+        width: 100%;
+        min-width: 320px;
+        max-width: 600px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
 

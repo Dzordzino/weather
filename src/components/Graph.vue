@@ -22,11 +22,16 @@ export default {
     mounted() {
         let todayData = ''
         todayData = this.firstDayData.map(item => {
-            let tempData = {};
+            let tempData = {},
+                time = item["dt_txt"].split(' ')[1],
+               percent = item["main"]["temp"],
+            r = percent>50 ? 255 : Math.floor(255 + (percent*2-100)*255/100),
+            g = percent<50 ? 255 : Math.floor((percent*2)*255/100);
+            console.log() ;
 
-            tempData.name = item["main"]["temp"];
+            tempData.name = time.split(':')[0];
             tempData.value = item["main"]["temp"];
-            tempData.color = '#6f7aff';
+            tempData.color = 'rgb('+r+', 0, '+g+')';
             return tempData;
         });
         this.graphData = todayData;
@@ -39,8 +44,8 @@ export default {
             let ctx = canvas.getContext('2d');
             let height = 300;
             let width = 800;
-            canvas.style.width = width + "px";
-            canvas.style.height = height + "px";
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
 
             let scale = window.devicePixelRatio;
             canvas.width =  width * scale;
@@ -75,22 +80,18 @@ export default {
               ctx.lineTo(x, height - 50);
               ctx.closePath();
               ctx.fill();
-
-              // draw header
-              ctx.font = "lighter 12px sans-serif";
-              ctx.fillStyle = "#888888";
-              ctx.fillText(data[i].name, x + 10, 20);
-
-              ctx.font = "bolder 12px sans-serif";
+                console.log(data[i])
+              ctx.font = "bolder 30px sans-serif";
+              ctx.textAlign = 'center'
               ctx.fillStyle = "#000";
-              ctx.fillText(data[i].value, x + 10, 40);
+              ctx.fillText(Math.round(data[i].value), x + canvas.width / (boxes * 2), 50);
 
 
               // draw footer
               
-                ctx.font = "lighter 12px sans-serif";
+                ctx.font = "24px sans-serif";
                 ctx.fillStyle = "#888888";
-                ctx.fillText('Dropoff -', x + 10, height - 30);
+                ctx.fillText(data[i].name + ' h',  x + canvas.width / (boxes * 2), height - 20);
               
             }
         }
